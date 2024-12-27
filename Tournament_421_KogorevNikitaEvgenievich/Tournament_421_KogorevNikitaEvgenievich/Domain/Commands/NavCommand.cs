@@ -1,0 +1,25 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using Tournament_421_KogorevNikitaEvgenievich.Domain.IServices;
+
+namespace Tournament_421_KogorevNikitaEvgenievich.Domain.Commands
+{
+    public class NavCommand : ICommand
+    {
+        private readonly INavService _navService;
+        public event EventHandler CanExecuteChanged;
+        public bool CanExecute(object parameter) => true;
+        public NavCommand(INavService navService)
+        {
+            _navService = navService;
+        }
+        public void Execute(object parameter)
+        {
+            _navService.Navigate();
+        }
+    }
+}

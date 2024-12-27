@@ -7,6 +7,21 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        
-    </Grid>
+        <Window.Resources>
+            <DataTemplate DataType="{x:Type viewmodels:PlayerViewModel}">
+                <views:PlayerView/>
+            </DataTemplate>
+
+            <BooleanToVisibilityConverter x:Key="IsNavDisabledConverter"/>
+        </Window.Resources>
+
+        <Grid>
+            <StackPanel Visibility="{Binding IsNavDisabled, Converter={StaticResource IsNavDisabledConverter}}" 
+                    Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button Content="Я игрок" Command="{Binding GoPlayerCommand}"/>
+                <Button Content="Я модератор" Command="{Binding GoViewerCommand}" Margin="10 0"/>
+                <Button Content="Я зритель" Command="{Binding GoModCommand}"/>
+            </StackPanel>
+            <ContentControl Content="{Binding CurrentViewModel}"/>
+        </Grid>
 </Window>
