@@ -30,6 +30,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Shell;
 using Tournament_421_KogorevNikitaEvgenievich;
+using Tournament_421_KogorevNikitaEvgenievich.ViewModels;
 using Tournament_421_KogorevNikitaEvgenievich.Views;
 
 
