@@ -16,7 +16,7 @@ namespace Tournament_421_KogorevNikitaEvgenievich.ViewModels
     {
         private readonly INavService _tour;
         private readonly TourContext _tourContext;
-        private readonly DbEntities _entities;
+        private readonly TournamentDB_421_KogorevNikitaEvgenievichEntities1 _entities;
 
         private string _searchText;
         public string SearchText
@@ -86,7 +86,7 @@ namespace Tournament_421_KogorevNikitaEvgenievich.ViewModels
         public ICommand RemoveFormatFilterCommand { get; }
         public ICommand SelectTourCommand { get; }
 
-        public SelectTourViewModel(INavService tour, TourContext tourContext, DbEntities entities)
+        public SelectTourViewModel(INavService tour, TourContext tourContext, TournamentDB_421_KogorevNikitaEvgenievichEntities1 entities)
         {
             _tour = tour;
             _tourContext = tourContext;

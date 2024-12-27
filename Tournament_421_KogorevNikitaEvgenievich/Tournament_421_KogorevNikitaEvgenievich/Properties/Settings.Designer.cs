@@ -26,5 +26,7 @@ namespace Tournament_421_KogorevNikitaEvgenievich.Properties
                 return defaultInstance;
             }
         }
+
+        public int UserId { get; internal set; }
     }
 }

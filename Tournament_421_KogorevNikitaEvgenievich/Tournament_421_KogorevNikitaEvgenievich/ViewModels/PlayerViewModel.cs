@@ -14,7 +14,7 @@ namespace Tournament_421_KogorevNikitaEvgenievich.ViewModels
 {
     public class PlayerViewModel : ViewModel
     {
-        private readonly DbEntities _entities;
+        private readonly TournamentDB_421_KogorevNikitaEvgenievichEntities1 _entities;
 
         public Player Player { get; set; } = new Player();
 
@@ -38,7 +38,7 @@ namespace Tournament_421_KogorevNikitaEvgenievich.ViewModels
         public ICommand CreateTeamCommand { get; }
         public ICommand SelectTourCommand { get; }
 
-        public PlayerViewModel(INavService createTeam, INavService selectTour, DbEntities entities)
+        public PlayerViewModel(INavService createTeam, INavService selectTour, TournamentDB_421_KogorevNikitaEvgenievichEntities1 entities)
         {
             CreateTeamCommand = new NavCommand(createTeam);
             SelectTourCommand = new NavCommand(selectTour);
@@ -76,8 +76,8 @@ namespace Tournament_421_KogorevNikitaEvgenievich.ViewModels
                     Player = user;
                     OnPropertyChanged(nameof(Player));
 
-                    Settings.Default.UserId = user.Id;
-                    Settings.Default.ModId = 1;
+                    //Settings.Default.UserId = user.Id;
+                    //Settings.Default.ModId = 1;
                     Settings.Default.Save();
 
                     IsLogged = true;

@@ -16,7 +16,7 @@ namespace Tournament_421_KogorevNikitaEvgenievich.ViewModels
 {
     public class CreateTeamViewModel : ViewModel
     {
-        private readonly DbEntities _entities;
+        private readonly TournamentDB_421_KogorevNikitaEvgenievichEntities1 _entities;
 
         public ObservableCollection<Player> Players { get; set; } = new ObservableCollection<Player>();
         public ObservableCollection<Player> SelectedPlayers { get; set; } = new ObservableCollection<Player>();
@@ -43,7 +43,7 @@ namespace Tournament_421_KogorevNikitaEvgenievich.ViewModels
         public ICommand CreateTeamCommand { get; }
         public ICommand GoBackCommand { get; }
 
-        public CreateTeamViewModel(INavService back, DbEntities entities)
+        public CreateTeamViewModel(INavService back, TournamentDB_421_KogorevNikitaEvgenievichEntities1 entities)
         {
             _entities = entities;
 
