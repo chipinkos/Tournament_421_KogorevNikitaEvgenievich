@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Windows;
+using Tournament_421_KogorevNikitaEvgenievich.Data;
 using Tournament_421_KogorevNikitaEvgenievich.Domain.Contexts;
 using Tournament_421_KogorevNikitaEvgenievich.Domain.IServices;
 using Tournament_421_KogorevNikitaEvgenievich.Domain.Services;
@@ -15,7 +16,10 @@ namespace Tournament_421_KogorevNikitaEvgenievich
         public App()
         {
             var services = new ServiceCollection();
+
+            services.AddSingleton<DbEntities>();
             services.AddSingleton<MainContext>();
+
             services.AddSingleton<MainWindow>();
             services.AddSingleton<MainViewModel>(p =>
             {
@@ -26,7 +30,15 @@ namespace Tournament_421_KogorevNikitaEvgenievich
                     p.GetRequiredService<MainContext>()
                     );
             });
-            services.AddTransient<PlayerViewModel>();
+
+            services.AddTransient<PlayerViewModel>(p =>
+            {
+                return new PlayerViewModel(CreateTeamFactory(p), p.GetRequiredService<DbEntities>());
+            });
+            services.AddTransient<CreateTeamViewModel>(p =>
+            {
+                return new CreateTeamViewModel(p.GetRequiredService<DbEntities>());
+            });
 
             _provider = services.BuildServiceProvider();
         }
@@ -40,9 +52,14 @@ namespace Tournament_421_KogorevNikitaEvgenievich
 
             base.OnStartup(e);
         }
+
         protected MainNavService PlayerFactory(IServiceProvider p)
         {
             return new MainNavService(p.GetRequiredService<MainContext>(), p.GetRequiredService<PlayerViewModel>);
+        }
+        protected MainNavService CreateTeamFactory(IServiceProvider p)
+        {
+            return new MainNavService(p.GetRequiredService<MainContext>(), p.GetRequiredService<CreateTeamViewModel>);
         }
         protected MainNavService BackOnlyFactory(IServiceProvider p)
         {

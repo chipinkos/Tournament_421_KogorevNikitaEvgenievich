@@ -5,6 +5,13 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="Хранилище TournamentDB_421_KogorevNikitaEvgenievichModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Access">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="Format">
           <Key>
             <PropertyRef Name="Id" />
@@ -27,7 +34,7 @@
           <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="TourId" Type="int" Nullable="false" />
           <Property Name="Timestamp" Type="datetime" Nullable="false" />
-          <Property Name="WinnerId" Type="int" Nullable="false" />
+          <Property Name="WinnerId" Type="int" />
         </EntityType>
         <EntityType Name="MatchPlayers">
           <Key>
@@ -37,7 +44,7 @@
           <Property Name="MatchId" Type="int" Nullable="false" />
           <Property Name="TeamId" Type="int" Nullable="false" />
           <Property Name="PlayerId" Type="int" Nullable="false" />
-          <Property Name="Rating" Type="int" Nullable="false" />
+          <Property Name="Rating" Type="int" />
         </EntityType>
         <EntityType Name="MatchViewed">
           <Key>
@@ -56,7 +63,7 @@
           <Property Name="Login" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Password" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="Title" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="AccessId" Type="int" />
+          <Property Name="AccessId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Player">
           <Key>
@@ -196,6 +203,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Moderator_Access">
+          <End Role="Access" Type="Self.Access" Multiplicity="1" />
+          <End Role="Moderator" Type="Self.Moderator" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Access">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Moderator">
+              <PropertyRef Name="AccessId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_TeamContent_Player">
           <End Role="Player" Type="Self.Player" Multiplicity="1" />
           <End Role="TeamContent" Type="Self.TeamContent" Multiplicity="*" />
@@ -269,6 +288,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="Хранилище TournamentDB_421_KogorevNikitaEvgenievichModelContainer">
+          <EntitySet Name="Access" EntityType="Self.Access" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Format" EntityType="Self.Format" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Game" EntityType="Self.Game" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Match" EntityType="Self.Match" Schema="dbo" store:Type="Tables" />
@@ -306,6 +326,10 @@
             <End Role="Viewer" EntitySet="Viewer" />
             <End Role="MatchViewed" EntitySet="MatchViewed" />
           </AssociationSet>
+          <AssociationSet Name="FK_Moderator_Access" Association="Self.FK_Moderator_Access">
+            <End Role="Access" EntitySet="Access" />
+            <End Role="Moderator" EntitySet="Moderator" />
+          </AssociationSet>
           <AssociationSet Name="FK_TeamContent_Player" Association="Self.FK_TeamContent_Player">
             <End Role="Player" EntitySet="Player" />
             <End Role="TeamContent" EntitySet="TeamContent" />
@@ -336,6 +360,14 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TournamentDB_421_KogorevNikitaEvgenievichModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Access">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Moderator" Relationship="Self.FK_Moderator_Access" FromRole="Access" ToRole="Moderator" />
+        </EntityType>
         <EntityType Name="Format">
           <Key>
             <PropertyRef Name="Id" />
@@ -360,7 +392,7 @@
           <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="TourId" Type="Int32" Nullable="false" />
           <Property Name="Timestamp" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="WinnerId" Type="Int32" Nullable="false" />
+          <Property Name="WinnerId" Type="Int32" />
           <NavigationProperty Name="Tournament" Relationship="Self.FK_Match_Tournament" FromRole="Match" ToRole="Tournament" />
           <NavigationProperty Name="MatchPlayers" Relationship="Self.FK_MatchPlayers_Match" FromRole="Match" ToRole="MatchPlayers" />
           <NavigationProperty Name="MatchViewed" Relationship="Self.FK_MatchViewed_Match" FromRole="Match" ToRole="MatchViewed" />
@@ -373,7 +405,7 @@
           <Property Name="MatchId" Type="Int32" Nullable="false" />
           <Property Name="TeamId" Type="Int32" Nullable="false" />
           <Property Name="PlayerId" Type="Int32" Nullable="false" />
-          <Property Name="Rating" Type="Int32" Nullable="false" />
+          <Property Name="Rating" Type="Int32" />
           <NavigationProperty Name="Match" Relationship="Self.FK_MatchPlayers_Match" FromRole="MatchPlayers" ToRole="Match" />
           <NavigationProperty Name="Player" Relationship="Self.FK_MatchPlayers_Player" FromRole="MatchPlayers" ToRole="Player" />
           <NavigationProperty Name="Team" Relationship="Self.FK_MatchPlayers_Team" FromRole="MatchPlayers" ToRole="Team" />
@@ -397,7 +429,8 @@
           <Property Name="Login" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Title" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="AccessId" Type="Int32" />
+          <Property Name="AccessId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Access" Relationship="Self.FK_Moderator_Access" FromRole="Moderator" ToRole="Access" />
           <NavigationProperty Name="Tournament" Relationship="Self.FK_Tournament_Moderator" FromRole="Moderator" ToRole="Tournament" />
         </EntityType>
         <EntityType Name="Player">
@@ -479,6 +512,18 @@
           <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="MatchViewed" Relationship="Self.FK_MatchViewed_Viewer" FromRole="Viewer" ToRole="MatchViewed" />
         </EntityType>
+        <Association Name="FK_Moderator_Access">
+          <End Role="Access" Type="Self.Access" Multiplicity="1" />
+          <End Role="Moderator" Type="Self.Moderator" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Access">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Moderator">
+              <PropertyRef Name="AccessId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Tournament_Format">
           <End Role="Format" Type="Self.Format" Multiplicity="1" />
           <End Role="Tournament" Type="Self.Tournament" Multiplicity="*" />
@@ -623,7 +668,8 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="TournamentDB_421_KogorevNikitaEvgenievichEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="TournamentDB_421_KogorevNikitaEvgenievichEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Access" EntityType="Self.Access" />
           <EntitySet Name="Format" EntityType="Self.Format" />
           <EntitySet Name="Game" EntityType="Self.Game" />
           <EntitySet Name="Match" EntityType="Self.Match" />
@@ -637,6 +683,10 @@
           <EntitySet Name="TeamContent" EntityType="Self.TeamContent" />
           <EntitySet Name="Tournament" EntityType="Self.Tournament" />
           <EntitySet Name="Viewer" EntityType="Self.Viewer" />
+          <AssociationSet Name="FK_Moderator_Access" Association="Self.FK_Moderator_Access">
+            <End Role="Access" EntitySet="Access" />
+            <End Role="Moderator" EntitySet="Moderator" />
+          </AssociationSet>
           <AssociationSet Name="FK_Tournament_Format" Association="Self.FK_Tournament_Format">
             <End Role="Format" EntitySet="Format" />
             <End Role="Tournament" EntitySet="Tournament" />
@@ -691,7 +741,15 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище TournamentDB_421_KogorevNikitaEvgenievichModelContainer" CdmEntityContainer="TournamentDB_421_KogorevNikitaEvgenievichEntities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище TournamentDB_421_KogorevNikitaEvgenievichModelContainer" CdmEntityContainer="TournamentDB_421_KogorevNikitaEvgenievichEntities1">
+          <EntitySetMapping Name="Access">
+            <EntityTypeMapping TypeName="TournamentDB_421_KogorevNikitaEvgenievichModel.Access">
+              <MappingFragment StoreEntitySet="Access">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Format">
             <EntityTypeMapping TypeName="TournamentDB_421_KogorevNikitaEvgenievichModel.Format">
               <MappingFragment StoreEntitySet="Format">

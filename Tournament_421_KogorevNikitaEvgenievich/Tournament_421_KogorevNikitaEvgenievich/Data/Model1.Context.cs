@@ -13,10 +13,10 @@ namespace Tournament_421_KogorevNikitaEvgenievich.Data
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class TournamentDB_421_KogorevNikitaEvgenievichEntities : DbContext
+    public partial class TournamentDB_421_KogorevNikitaEvgenievichEntities1 : DbContext
     {
-        public TournamentDB_421_KogorevNikitaEvgenievichEntities()
-            : base("name=TournamentDB_421_KogorevNikitaEvgenievichEntities")
+        public TournamentDB_421_KogorevNikitaEvgenievichEntities1()
+            : base("name=TournamentDB_421_KogorevNikitaEvgenievichEntities1")
         {
         }
     
@@ -25,6 +25,7 @@ namespace Tournament_421_KogorevNikitaEvgenievich.Data
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Access> Access { get; set; }
         public virtual DbSet<Format> Format { get; set; }
         public virtual DbSet<Game> Game { get; set; }
         public virtual DbSet<Match> Match { get; set; }

@@ -12,22 +12,18 @@ namespace Tournament_421_KogorevNikitaEvgenievich.Data
     using System;
     using System.Collections.Generic;
     
-    public partial class Moderator
+    public partial class Access
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Moderator()
+        public Access()
         {
-            this.Tournament = new HashSet<Tournament>();
+            this.Moderator = new HashSet<Moderator>();
         }
     
         public int Id { get; set; }
-        public string Login { get; set; }
-        public string Password { get; set; }
         public string Title { get; set; }
-        public int AccessId { get; set; }
     
-        public virtual Access Access { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Tournament> Tournament { get; set; }
+        public virtual ICollection<Moderator> Moderator { get; set; }
     }
 }

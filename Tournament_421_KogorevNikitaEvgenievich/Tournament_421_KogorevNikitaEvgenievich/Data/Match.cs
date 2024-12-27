@@ -25,7 +25,7 @@ namespace Tournament_421_KogorevNikitaEvgenievich.Data
         public string Title { get; set; }
         public int TourId { get; set; }
         public System.DateTime Timestamp { get; set; }
-        public int WinnerId { get; set; }
+        public Nullable<int> WinnerId { get; set; }
     
         public virtual Tournament Tournament { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
